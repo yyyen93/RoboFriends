@@ -1,0 +1,9 @@
+Building A React App 4
+- Make the app more realistic.
+- Use API to make website realistic.
+-https://reactjs.org/docs/react-component.html
+-https://jsonplaceholder.typicode.com/
+-https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+
+What API?
+- We want when website gets loaded, it can make a request somewhere out there. And grab these information from a server.
