@@ -1,16 +1,23 @@
 import React, {Component} from 'react';
 import CardList from './CardList';
-import {robots} from './robots';
 import SearchBox from './SearchBox';
 class App extends Component{
   //Add 'state' in react
   constructor(){
     super();
     this.state = {
-      robots: robots,
+      robots: [],
       searchfield: ''
     }
   }
+
+  //Lifecycle Mouting | Lifecyle hooks
+  componentDidMount(){
+    // Cool way to grab the robots list.
+
+    // When the component does mount, we can set the robots from the javascript file.
+    this.setState({robots:robots})
+  };
 
   //Create function for SearchBox
   onSearchChange = (event) =>{
@@ -19,7 +26,7 @@ class App extends Component{
 
   render(){
     const filteredRobots = this.state.robots.filter(robot => {
-      return robot.name.toLowerCase().includes(this.searchfield.toLowerCase())
+      return robot.name.toLowerCase().includes(this.state.searchfield.toLowerCase())
     });
 
     return(
