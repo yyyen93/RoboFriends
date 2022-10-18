@@ -11,17 +11,49 @@ class App extends Component{
     }
   }
 
-  //Lifecycle Mouting | Lifecyle hooks
+  //Lifecycle Mouting | Lifecyle hooks*/
   componentDidMount(){
-    // Cool way to grab the robots list.
-
-    // When the component does mount, we can set the robots from the javascript file.
-    this.setState({robots:robots})
+    /**(1)We fetch whatever the users are. 
+     * Cool way to grab the robots list using HTTP REQUEST 'fetch'.
+     * fetch is a method on the window.object.
+     * fetch is a tool for us to make requests to a server. In this 'https://jsonplaceholder.typicode.com/users' is the server 
+     * Question (USERFUL): if you're wondering, what if fetching server was really slow or took 5 second above and we have whole ton of users.
+      Answer: Well, in this case you can do something like an IF statement in render(). (THIS IS JUST JAVASCRIPT)
+      if robots.length = 0, return an 'h1' that says 'LOADING'
+      else return the CardList, SearchBox component
+      Code:
+      if(this.state.robots.length === 0){
+        return <h1>Loading</h1>
+      }else{
+        return(
+          <div className="tc">  
+            <h1>RoboFriends</h1>
+            <SearchBox searchChange={this.onSearchChange}/>
+            <CardList robots={filteredRobots}/>
+          </div>
+        );
+      };
+    */
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response=>{
+        return response.json(); 
+        /**(2)We're getting a response 
+         * Received a response and convert the response into json. 
+        */
+      })
+      .then(user=>{
+        this.setState({robots:user});
+        /**(3)We're getting the users and updating the users with setState
+         * In here, we can say this.setState robots = user
+         * robot or user, because in this case we're getting users.
+         * If user return to an empty object.It wont receive robots. It will only receive the robots after update with these users.
+         */
+      })
   };
 
   //Create function for SearchBox
   onSearchChange = (event) =>{
-      this.setState({searchfield: event.target.value}); 
+    this.setState({searchfield: event.target.value}); 
   }
 
   render(){
@@ -29,14 +61,18 @@ class App extends Component{
       return robot.name.toLowerCase().includes(this.state.searchfield.toLowerCase())
     });
 
-    return(
-      <div className="tc">  
-        <h1>RoboFriends</h1>
-        <SearchBox searchChange={this.onSearchChange}/>
-        <CardList robots={filteredRobots}/>
-      </div>
-    );
-  }
+    if(this.state.robots.length === 0){
+      return <h1>LOADING</h1> //LOADING BAR
+    }else{
+      return(
+        <div className="tc">  
+          <h1>RoboFriends</h1>
+          <SearchBox searchChange={this.onSearchChange}/>
+          <CardList robots={filteredRobots}/> 
+        </div>
+      )
+    };
+  };
 };
 export default App;
 
@@ -115,5 +151,71 @@ Because 'App' owns the 'state', any component that has 'state' uses
   -We always know that the App is going to look the same, because they're just simple pure functions.
   -We managed the 'state' in the constructor and the App is the only thing that can change this state. But it can pass down things such as props. So we passed down 'onSearchChange' to the 'SearchBox' and the 'SearchBox', everytime there's an 'onChange' on the input, It will let the 'App' know, "Hey, there was a change", "Run the 'onSearchChange' function". It runs the function with the event and updates the 'State' of the 'searchfield' to whatever we type.
   -Now with the information that we have from the 'searchBox', we can now communicate to the 'CardList' and tell it "Hey, i want to filter the 'robots' state to now have only what includes in the 'searchfield'". And instead of passing that 'this.state' to our 'robots', we just passed the 'filteredRobots'
+*/
 
- */
+
+/**Building React App 4
+- Smart component
+- has 'state' that describe our app. Because have 'state' we called them smart component.
+- smart component tend to have class syntax.
+- React comes with a few other things inside of Components that we can use are called 'lifecycle' method.
+- 'lifecycle' method, if we run these, it will automatically trigger when this App gets loaded on the website. 
+-We want to use componentDidMount(), which gets called after render(). 
+
+
+1) In real life, when we start up this app this.state.robots would actually be an empty array. Because its nothing there, we havent grab the users.
+old:
+    this.state = {
+      robots: robots,
+      searchfield: ''
+    }
+new:
+    this.state = {
+      robots: [],
+      searchfield: ''
+    }
+2) add componentDidMount(); 
+    - 'Lifecycle Mounting | lifecycle hooks'
+    -  Because this is part of react,'Notice that i'm not using arrow functions here'
+3) Add this.setState({robots:robots}) 
+    - When a component does mount, we can set the robots from the javascript file.
+    - update the 'state' in componentDidMount(). because we updated the 'state', everytime the state changes, it runs the lifecycle 'updating', and it run render again.
+    -So, because it goes from an empty array to a robot's list, render gets re-run, and the virtual DOM notices that there's a difference, and repaints our web browser to include the robots.
+4) Removed import {robots} from './robots';
+5) Add 'fetch' HTTP request
+code:
+fetch('https://jsonplaceholder.typicode.com/users')
+.then(response=>response.json())
+.then(user=>this.setState({robots:user}))
+
+Explanation:
+(1) fetch('https://jsonplaceholder.typicode.com/users')
+    - We fetch whatever the user are.
+    - Cool way to grab the robots list using HTTP REQUEST 'fetch'
+    - fetch is a method on the window.object
+    - fetch is a tool for us to make requests to a server. In this 'https://jsonplaceholder.typicode.com/users' is the server
+    - Question (USERFUL): if you're wondering, what if fetching server was really slow or took 5 second above and we have whole ton of users.
+      Answer: Well, in this case you can do something like an IF statement in render(). (THIS IS JUST JAVASCRIPT)
+      if robots.length = 0, return an 'h1' that says 'LOADING'
+      else return the CardList, SearchBox component
+      Code:
+      if(this.state.robots.length === 0){
+        return <h1>Loading</h1> //LOADING BAR
+      }else{
+        return(
+          <div className="tc">  
+            <h1>RoboFriends</h1>
+            <SearchBox searchChange={this.onSearchChange}/>
+            <CardList robots={filteredRobots}/>
+          </div>
+        );
+      };
+(2) .then(response=>response.json())
+    - We're getting a response
+    - Received a response and convert the response into json
+(3) .then(user=>this.setState({robots:user}))
+    - We're getting the users and updating the users with setState
+    - In here, we can say this.setState robots = user
+    - robot or user, because in this case we're getting users.
+    - If user return to an empty object. It wont receive robots. It will only receive the robots after update with these users.
+*/
