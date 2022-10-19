@@ -1,0 +1,58 @@
+Building A React App 6
+- Organize & structure files.
+- Clean up the files.
+- Create few folders
+    - components : for pure function component
+        - CardList, SearchBox, Scroll
+    - containers : for smart component, have 'state',have 'lifecycle hooks'
+        - App.js, SEGA.woff
+
+../container/App
+../components/CardList
+
+'..' means leave the folder and go into the container or components.
+
+
+App.js
+1) There is an easy way to write this line of codes
+    - robots.length is is consider false
+        - So, we want the opposite
+            - (robots.length) is 0 false
+            - (!robots.length) is 1 true
+    -Which means 
+        - Its 'true'  If server response slow and no robots, it will return LOADING
+        - Its 'false If server get robots and it will return the components.
+            !robots.length means true
+            robots.length means false
+2) Make this code into ternary:
+Code: 
+    if(!robots.length){
+      return <h1>LOADING</h1> //LOADING BAR
+    }else{
+      return(
+        <div className="tc">  
+          <h1>RoboFriends</h1>
+          <SearchBox searchChange={this.onSearchChange}/>
+          <Scroll>
+            <CardList robots={filteredRobots}/> 
+          </Scroll>
+        </div>
+      )
+
+Ternary Code:
+return !robots.length ?
+       <h1>LOADING</h1> : //LOADING BAR
+      (
+        <div className="tc">  
+          <h1>RoboFriends</h1>
+          <SearchBox searchChange={this.onSearchChange}/>
+          <Scroll>
+            <CardList robots={filteredRobots}/> 
+          </Scroll>
+        </div>
+      )
+
+run build
+- created a new folder called 'build', we will have a 'build' file that are optimized.
+- JS, CS all are minified.
+- EVERYTHING WE NEED TO DEPLOY A WEBSITE IS IN 'BUILD' FOLDER'.    

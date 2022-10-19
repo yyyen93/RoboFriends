@@ -1,0 +1,74 @@
+Bulding A React App 1
+- create Card.js Component
+- create robots.js file (Because the file is export but not export.default, so this file could have multiple exports.)
+- props is property
+
+Reminder: 
+The rule is, 
+When there is a export.default, we can just do
+import Card from './Card'; (export default)
+
+When there is no default but only export, we must do destructure
+import { robots } from './robots';
+
+###Card.js
+1)Instead of doing a class way, for now we're just going to build the function.
+2)When writing HTML in react, mean we are writing JSX.
+3)https://robohash.org/
+4)REMEMBER we need to return one thing, and we can't have multiple elements being returned.
+5)Use tachyons to design the card
+6)Card need to accept parameters, the parameters is props.
+   i) Can set parameters as
+      - (props)
+        {props.id} {props.name} {props.email}
+      - (props)
+        const {id,name,email} = props
+        {id} {name} {email}
+      - ({id, name, email})
+
+Source Code:
+import React from 'react';
+
+const Card = ({id,name,email}) => {
+    return(
+        <div className="tc bg-light-green dib br3 pa3 ma2 grow bw2 shadow-5">
+            <img alt="Robot" src={`https://robohash.org/${id}?200x200`}/>
+            <div>
+                <h2>{name}</h2>
+                <p>{email}</p>
+            </div>
+        </div>
+    );
+}
+export default Card;
+
+
+###index.js
+1) Want to have multiple card component
+2) After we destructure the robots, we can use robots and give props
+
+Source Code:
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import reportWebVitals from './reportWebVitals';
+import 'tachyons';
+import './index.css';
+import Card from './Card';
+import { robots } from ./robots;
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <div>
+        //Wrap in a div because want to return just single element.
+        <Card id={robots[0].id} name={robots[0].name} email={robots[0].email} />
+        <Card id={robots[1].id} name={robots[1].name} email={robots[1].email} />
+        <Card id={robots[2].id} name={robots[2].name} email={robots[2].email} />
+    </div>
+  </React.StrictMode>
+);
+reportWebVitals();
+
+
+
+
