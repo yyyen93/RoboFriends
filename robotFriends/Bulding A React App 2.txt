@@ -1,27 +1,33 @@
+Building A React App 2
+- Create CardList.js component
+
+###index.js
+1)import 'CardList' component.
+2)Removed the 
+  i)<div></div> together with the <Card /> and place it in 'CardList.js' component.
+  ii)import Card from './Card';
+3) index.js will just render <CardList /> component.
+4) We can use the 'robots' now to pass, as robots={robots} array. The 'CardList' is accepting a 'robots' props.
+
+Source Code:
 import React from 'react';
-import Card from './Card';
+import ReactDOM from 'react-dom/client';
+import reportWebVitals from './reportWebVitals';
+import 'tachyons';
+import './index.css';
+import { robots } from ./robots;
+import CardList from './CardList';
 
-const CardList = ({robots}) =>{
-    return(
-        <div>
-            {
-                robots.map((user,i) => {
-                    return (
-                        <Card 
-                            key={i} 
-                            id={robots[i].id} 
-                            name={robots[i].name} 
-                            email={robots[i].email}
-                        />
-                    );
-                })
-            }
-        </div>
-    );
-}
-export default CardList;
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <CardList robots={robots}/> //Render CardList component
+  </React.StrictMode>
+);
+reportWebVitals();
 
-/** Building React App 2
+
+###CardList.js
 1) It should return the Card.
 2) Add the 
    i) <div></div> together with the <Card />
@@ -50,6 +56,7 @@ export default CardList;
     );
 
     -Because the {cardArrays} is wrapped in Javascript. We can just copy the entire 'map' loop and paste it inside the {}.
+    
 
 Source Code:
 import React from 'react';
@@ -74,4 +81,4 @@ const CardList = ({robots}) =>{
     );
 }
 export default CardList;
-*/
+

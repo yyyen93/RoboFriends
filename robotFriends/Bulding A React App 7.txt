@@ -1,0 +1,15 @@
+Building React App 7
+- styling
+- download the SEGA font
+
+index.css
+- change the style of the entire App
+
+
+App.css
+- uses SEGA LOGO FONT.
+- always remember to import this App.css in App.js 
+
+
+App.js
+- add className="f2" in h1
